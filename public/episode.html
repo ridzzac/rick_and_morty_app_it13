@@ -1,17 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rick and Morty</title>
-    <link rel="stylesheet" href="style/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rick and Morty</title>
+  <link href="style/style.css" rel="stylesheet">
 </head>
-<body>
-    <div class="container mx-auto">
-        <h1 class="text-3xl font-bold mb-6 text-center">Rick and Morty Episodes</h1>
-        <div id="episode-list" class="space-y-4"></div>
+
+<body class="text-black bg-white min-h-screen p-6">
+ <div class="fixed top-0 left-0 right-0 w-full bg-white shadow-md z-50">
+
+    <div class="flex flex-wrap items-center justify-between bg-blue-900 text-white px-4 py-2 space-x-1 sm:space-x-2 sm:h-12 sm:flex-nowrap">
+      
+      <button id="menu-toggle" class="bg-blue-900 text-white font-bold py-1 rounded">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="w-5 h-5">
+          <path fill-rule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 10a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 10Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+        </svg>
+      </button>      
     </div>
 
-    <script src="script/article.js"></script>
+    <div id="menu" class="fixed top-12 left-0 bottom-0 w-48 md:w-64 lg:w-72 xl:w-80 bg-blue-900 text-white z-40 p-4 shadow-lg rounded-br-lg overflow-y-auto transform -translate-x-full md:translate-x-0 hidden">
+      <ul class="space-y-4 text-base font-medium">
+        <li><a href="index.html" class="block hover:text-green-600">Home</a></li>
+        <li><a href="signUser.html" class="block hover:text-green-600">Log-in Account</a></li>
+        <li><a href="location.html" class="block hover:text-green-600">Locations</a></li>
+        <li><a href="list.html" class="block hover:text-green-600">Characters</a></li>
+        <li><a href="about_us.html" class="block hover:text-green-600">About us</a></li>
+      </ul>
+    </div>
+
+    <header class="pt-10 px-4">
+      <h1 class="text-black text-3xl sm:text-4xl md:text-5xl text-center font-bold mb-6">
+        Seasons
+      </h1>
+
+      <br>
+
+      <div class="flex justify-center gap-2 mb-6">
+        <button class="page-btn bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" data-season="1">1</button>
+        <button class="page-btn bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" data-season="2">2</button>
+        <button class="page-btn bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" data-season="3">3</button>
+        <button class="page-btn bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" data-season="4">4</button>
+        <button class="page-btn bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded" data-season="5">5</button>
+      </div>
+    </header>
+  </div>
+
+  <main class="mt-64">
+    <div id="episodes-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      
+    </div>
+
+    <div id="pagination" class="flex justify-center mt-8 gap-2">
+      
+    </div>
+  </main>
+
+  <footer class="py-4 mt-8">
+    <div class="container mx-auto text-center">
+      <h2 class="text-black text-lg sm:text-xl md:text-3xl font-semibold">
+        Rick and Morty
+      </h2>
+    </div>
+  </footer>
+
+  <script type="module" src="script/episode.js"></script>
 </body>
 </html>

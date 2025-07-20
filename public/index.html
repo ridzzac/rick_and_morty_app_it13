@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rick and Morty</title>
-    <link rel="stylesheet" href="style/style.css">
-</head>
-<body>
-    <button onclick="test()">Click ME</button>
-    <script src="script/fetch_api.js"></script>
-    <script src="script/init.js"></script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rick and Morty</title>
+        <link rel="stylesheet" href="style/style.css">
+        <link rel="stylesheet" href="style/loading.css">
+    </head>
+
+    <body>
+
+        <div class="loading-screen">
+                <img src="img/image.png" alt="Logo" class="logo">
+            <div class="container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+                <div class="percent" id="percent">0%</div>
+        </div>
+
+        <style src="script/loadng.js"></style>
+        
+    </body>
 </html>

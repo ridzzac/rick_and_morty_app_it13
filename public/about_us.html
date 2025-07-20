@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rick and Morty About_us</title>
+    <link href="style/style.css" rel="stylesheet" />
+  </head>
+
+  <body class="bg-white font-sans text-gray-800">
+    <header class="relative h-12 bg-blue-900 px-4 py-2 text-white shadow-md">
+      <!-- Menu -->
+      <button id="menu-toggle" class="absolute left-4 top-1/2 -translate-y-1/2">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="h-5 w-5">
+          <path fill-rule="evenodd" d="M2 4.75A.75.75 0 0 1 2.75 4h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 4.75ZM2 10a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75A.75.75 0 0 1 2 10Zm0 5.25a.75.75 0 0 1 .75-.75h14.5a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
+        </svg>
+      </button>
+
+      <h1 class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold">About us</h1>
+    </header>
+
+    <div id="menu" class="fixed bottom-0 left-0 top-12 z-40 hidden w-48 -translate-x-full transform overflow-y-auto rounded-br-lg bg-blue-900 p-4 text-white shadow-lg md:w-64 md:translate-x-0 lg:w-72 xl:w-80">
+      <ul class="space-y-4 text-base font-medium">
+        <li><a href="index.html" class="block hover:text-green-600">Home</a></li>
+        <li><a href="signUser.html" class="block hover:text-green-600">Log-in Account</a></li>
+        <li><a href="list.html" class="block hover:text-green-600">Characters</a></li>
+        <li><a href="location.html" class="block hover:text-green-600">Locations</a></li>
+        <li><a href="episode.html" class="block hover:text-green-600">Episodes</a></li>
+      </ul>
+    </div>
+
+    <section class="mx-auto mt-10 max-w-5xl rounded-2xl border border-gray-200 bg-white p-6 shadow-md">
+      <h2 class="mb-6 text-center text-3xl font-bold text-black sm:text-4xl md:text-5xl">Rick and Morty</h2>
+
+      <div class="flex flex-col items-center gap-8 px-10 md:flex-row">
+        <img src="https://imgcdn.stablediffusionweb.com/2024/9/15/54fc7451-1a7f-4575-bf7f-fd20018aa037.jpg" alt="Rick and Morty Logo" class="mb-4 w-32 rounded-xl md:w-1/2" />
+
+        <div class="w-full space-y-4 text-lg leading-relaxed md:w-1/2">
+          <p>Rick and Morty is a popular American animated sci-fi sitcom created by Justin Roiland and Dan Harmon for Cartoon Network’s late-night Adult Swim block. The show centers on the chaotic escapades of Rick Sanchez, a jaded, eccentric scientist, and his anxious but kind-hearted grandson Morty Smith. Their adventures blend ordinary family life with wild, interdimensional journeys across countless universes, often involving space travel through portals or Rick’s spaceship. The show contrasts everyday family issues with Rick’s dark, reckless behavior.</p>
+          <p>Originally, Roiland voiced both main characters until he was replaced in Season 7 by Ian Cardoni and Harry Belden. Other key cast members include Chris Parnell (Jerry), Spencer Grammer (Summer), and Sarah Chalke (Beth). The show began as a parody of Back to the Future, created by Roiland for Channel 101, a short film festival co-founded by Harmon.</p>
+          <p>A major renewal deal secured 70 episodes, extending the show to at least ten seasons, and by 2024, it was confirmed through Season 12. In 2023, Adult Swim severed ties with Roiland due to domestic abuse allegations and recast his roles. Season 7 premiered on October 15, 2023, and Season 8 followed on May 25, 2025.</p>
+          <p>Since its premiere, Rick and Morty has earned widespread praise for its clever writing, originality, and humor. It has won two Primetime Emmy Awards (2018 and 2020) and two Annie Awards. The series has frequently ranked as the top comedy among viewers aged 18 to 24 and has evolved into a lucrative franchise worth hundreds of millions in merchandise and media.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mx-auto mt-10 max-w-xl rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-md">
+      <h2 class="mb-4 text-2xl font-bold text-black">Myra Ngalongalay</h2>
+      <img src="img/myra.png" alt="Myra's Avatar" class="mx-auto mb-4 h-32 w-32 rounded-full border-4 border-green-500 shadow-md" />
+
+      <h3 class="text-xl font-semibold text-gray-800">Myra Ngalongalay</h3>
+      <p class="text-gray-600">21 years old • Female</p>
+      <p class="mb-4 text-gray-500">Brgy. Panique</p>
+
+      <blockquote class="mt-2 italic text-blue-600">"Walang maliit na pangarap kung pagsisikapan."</blockquote>
+    </section>
+
+    <br />
+
+    <section class="mx-auto mt-10 max-w-xl rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-md">
+      <h2 class="mb-4 text-2xl font-bold text-black">John Romwil F. Alonzo</h2>
+      <img src="img/John Romwil.png" alt="John Romwil's avatar" class="mx-auto mb-4 h-32 w-32 rounded-full border-4 border-green-500 shadow-md" />
+
+      <h3 class="text-xl font-semibold text-gray-800">John Romwil F. Alonzo</h3>
+      <p class="text-gray-600">21 years old • Male</p>
+      <p class="mb-4 text-gray-500">Brgy. Gabawan</p>
+
+      <blockquote class="mt-2 italic text-blue-600">"Dont't judge the book by it's cover."</blockquote>
+    </section>
+
+    <section class="mx-auto mt-10 max-w-xl rounded-2xl border border-gray-200 bg-white p-6 text-center shadow-md">
+      <h2 class="mb-4 text-2xl font-bold text-black">Riddell Isaac Soriano</h2>
+      <img src="" alt="Riddell's Avatar" class="mx-auto mb-4 h-32 w-32 rounded-full border-4 border-green-500 shadow-md" />
+
+      <!-- <h3 class="text-xl font-semibold text-gray-800">Riddell Isaac Soriano</h3> -->
+      <p class="text-gray-600">21 years old • Male</p>
+      <p class="mb-4 text-gray-500">Brgy. Libertad</p>
+
+      <blockquote class="mt-2 italic text-blue-600">"?"</blockquote>
+    </section>
+
+    <footer class="mt-8 py-4">
+      <div class="container mx-auto text-center">
+        <h2 class="text-lg font-semibold text-black sm:text-xl md:text-3xl">Rick and Morty Fan Pages</h2>
+      </div>
+    </footer>
+   
+      <script type="module" src="script/about_us.js"></script>
+    
+  </body>
+</html>
