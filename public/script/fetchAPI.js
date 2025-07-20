@@ -1,5 +1,5 @@
 import { Entity } from "./entity.js";
-import { InvalidPageNumber } from "./errors.js";
+import { InvalidIdError, InvalidPageNumberError } from "./errors.js";
 
 const ENTITY_TYPE_URL_KEY = Object.freeze({
     RESULTS: "results",
@@ -9,9 +9,6 @@ const ENTITY_TYPE_URL_KEY = Object.freeze({
 const CHARACTER_TYPE = Entity.TYPE.CHARACTER;
 const LOCATION_TYPE = Entity.TYPE.LOCATION;
 const EPISODE_TYPE = Entity.TYPE.EPISODE;
-
-const maxEntityCount = [null, null, null];
-const maxEntityPage = [null, null, null];
 
 const MINIMUM_PAGE_NUMBER = 1;
 
@@ -110,27 +107,6 @@ const episodeTypeInfo_test = {
 
 function getURLWithPageNumber(url, pageNumber) {
     return `${url}?page=${pageNumber}`;
-}
-
-function setMaxEntityCount(entityType, value) {
-    throwIfNotEntity(entityType);
-    maxEntityCount[entityType] = value;
-}
-
-function getMaxEntityCount(entityType) {
-    throwIfNotEntity(entityType);
-    let value = maxEntityCount[entityType];
-    if (value === null)
-        throw new Error(`The total count for ${getName(entityType)} is not set.`)
-    return value;
-}
-
-function getMaxEntityPage(entityType) {
-    throwIfNotEntity(entityType);
-    let value = maxEntityPage[entityType];
-    if (value === null)
-        throw new Error(`The total pages for ${getName(entityType)} is not set.`)
-    return value;
 }
 
 /**
@@ -240,6 +216,12 @@ async function getAllOfEntityType(entityType) {
     return { output: output, errors: errors };
 }
 
+async function getEntityById(entityType, id){
+    const response = await fetch(`${Entity.getURL(entityType)}/${id}`);
+    const data = await response.json();
+    return Entity.createCharacterFromJSON(await data);
+}
+
 function throwIfInvalidPage(entityType, inputPageNumber, minPageNumber, maxPageNumber) {
     let isInvalid = false;
     switch (entityType) {
@@ -258,7 +240,7 @@ function throwIfInvalidPage(entityType, inputPageNumber, minPageNumber, maxPageN
 
     }
     if (isInvalid)
-        throw new InvalidPageNumber(inputPageNumber, minPageNumber, maxPageNumber, `The page number for ${Entity.getEntityName(entityType)} is invalid`);
+        throw new InvalidPageNumberError(inputPageNumber, minPageNumber, maxPageNumber, `The page number for ${Entity.getEntityName(entityType)} is invalid`);
 }
 
 function throwIfNotEntity(entityType, msg = "Not an Entity") {
@@ -268,6 +250,25 @@ function throwIfNotEntity(entityType, msg = "Not an Entity") {
 
 
 // public
+
+/**
+ * Gets the max number of pages
+ */
+export function getMaxCharacterPage(){
+    return characterTypeInfo.pages;
+}
+
+export function getMaxCharacterCount(){
+    return characterTypeInfo.count;
+}
+
+export function getMaxLocationPage(){
+    return locationTypeInfo.pages;
+}
+
+export function getMaxLocationCount(){
+    return locationTypeInfo.count;
+}
 
 /**
  * Updates the character count and the number of pages.
@@ -288,6 +289,18 @@ export async function updateLocationCountAndPages() {
  */
 export async function updateEpisodeCountAndPages() {
     await fetchInfoEntityType(EPISODE_TYPE);
+}
+
+export function getCharacterById(id){
+    if(id < MINIMUM_PAGE_NUMBER || id > characterTypeInfo.count)
+        throw new InvalidIdError(id, CHARACTER_TYPE, `No character of id ${id} that exists`);
+    return getEntityById(CHARACTER_TYPE, id);
+}
+
+export function getLocationById(id){
+    if(id < MINIMUM_PAGE_NUMBER || id > locationTypeInfo.count)
+        throw new InvalidIdError(id, LOCATION_TYPE, `No location of id ${id} that exists`);
+    return getEntityById(LOCATION_TYPE, id);
 }
 
 /**
@@ -323,6 +336,9 @@ export function getEpisodesFromPage(pageNumber) {
     return fetchEntitiesAsArrayFromPage(EPISODE_TYPE, pageNumber);
 }
 
+/**
+ * @deprecated
+ */
 export function getAllCharacterImages() {
     let output = [];
     let URL = Entity.getURL(CHARACTER_TYPE);
@@ -398,6 +414,3 @@ export async function getAllEpisodesBySeason() {
         });
     return seasons;
 }
-
-await fetchSeasonsInfo()
-console.log(episodeTypeInfo_test);
