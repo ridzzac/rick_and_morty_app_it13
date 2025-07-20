@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign User</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+
+<body class="bg-rmDarkBg-normal">
+    <div class="text-rmGreen-normal bg-rmDarkBg-lighter rounded-lg shadow-md shadow-rmGreen-normal w-[75vw] h-64 p-4 mt-[30vh] mx-auto">
+        <p class="text-xl w-full text-center font-bold">Log In</p>
+        <form class="flex flex-row justify-around">
+            <div class="w-[30%] h-[10rem] flex flex-col justify-around">
+                <label for="email">Email:</label>
+                <label for="password">Password:</label>
+            </div>
+            <div class="w-[60%] h-[10rem] flex flex-col justify-around">
+                <input id="email" type="email" placeholder="email" class="rounded-lg bg-rmDarkBg-normal text-white">
+                <input id="password" type="password" placeholder="password" class="rounded-lg bg-rmDarkBg-normal text-white">
+            </div>
+        </form>
+        <button id="submit" class="p-2 w-full">Submit</button>
+    </div>
+
+    <script type="module" src="script/signUser.js"></script>
+</body>
+
+</html>
