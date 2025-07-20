@@ -1,4 +1,8 @@
-import { getCharactersFromPage, getMaxCharacterPage, getAllCharacters } from "./fetchAPI.js";
+import {
+  getLocationsFromPage,
+  getMaxLocationPage,
+  getAllLocations
+} from "./fetchAPI.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const toggleBtn = document.getElementById('menu-toggle');
@@ -10,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const nextBtn = document.getElementById('next-page');
   const pageInfo = document.getElementById('page-info');
 
-  let allCharacters = [];
+  let allLocations = [];
 
   // Menu
   function toggleMenu() {
@@ -28,12 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const query = searchInput.value.toLowerCase();
     container.innerHTML = "";
 
-    const filtered = allCharacters.filter(character =>
-      character.name.toLowerCase().includes(query)
+    const filtered = allLocations.filter(location =>
+      location.name.toLowerCase().includes(query)
     );
 
     if (filtered.length === 0) {
-      container.innerHTML = "<p class='text-red-500 text-5xl font-bold pt-44'>No characters found.</p>";
+      container.innerHTML = "<p class='text-red-500 text-5xl font-bold pt-44'>No locations found.</p>";
       return;
     }
 
@@ -43,10 +47,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       let html = `<h2 class="text-xl font-semibold mb-2">${item.name}</h2>`;
       html += `
-        <img src="${item.image}" alt="${item.name}" class="w-full h-auto object-cover rounded mt-6 mb-2">
-        <p><strong>Status:</strong> ${item.status}</p>
-        <p><strong>Species:</strong> ${item.species}</p>
-        <p><strong>Gender:</strong> ${item.gender}</p>
+        <p><strong>Type:</strong> ${item.type}</p>
+        <p><strong>Dimension:</strong> ${item.dimension}</p>
+        <p><strong>Residents:</strong> ${item.residents.length}</p>
       `;
 
       card.innerHTML = html;
@@ -56,24 +59,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Render
   let currentPage = 1;
-  const maxPage = getMaxCharacterPage();
+  let maxPage = 1;
 
   async function renderList(page = 1) {
     try {
       container.innerHTML = "";
-      const data = await getCharactersFromPage(page);
+      const data = await getLocationsFromPage(page);
+      maxPage = await getMaxLocationPage();
 
       data.forEach(item => {
         const card = document.createElement('div');
         card.className = "bg-black text-white p-4 rounded-lg shadow-md hover:shadow-lg transition duration-300 text-xs sm:text-sm md:text-base";
 
         let html = `<h2 class="text-xl font-semibold mb-2">${item.name}</h2>`;
-
         html += `
-          <img src="${item.image}" alt="${item.name}" class="w-full h-auto object-cover rounded mt-6 mb-2">
-          <p><strong>Status:</strong> ${item.status}</p>
-          <p><strong>Species:</strong> ${item.species}</p>
-          <p><strong>Gender:</strong> ${item.gender}</p>
+          <p><strong>Type:</strong> ${item.type}</p>
+          <p><strong>Dimension:</strong> ${item.dimension}</p>
+          <p><strong>Residents:</strong> ${item.residents.length}</p>
         `;
 
         card.innerHTML = html;
@@ -89,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //Page buttons
+  // Page controls
   prevBtn.addEventListener('click', () => {
     if (currentPage > 1) {
       currentPage--;
@@ -105,7 +107,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   renderList(currentPage);
-  getAllCharacters().then(data => {
-    allCharacters = data.output;
+
+  getAllLocations().then(data => {
+    allLocations = data.output;
   });
 });

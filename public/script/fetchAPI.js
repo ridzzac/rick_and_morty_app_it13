@@ -1,5 +1,5 @@
 import { Entity } from "./entity.js";
-import { InvalidPageNumber } from "./errors.js";
+import { InvalidIdError, InvalidPageNumberError } from "./errors.js";
 
 const ENTITY_TYPE_URL_KEY = Object.freeze({
     RESULTS: "results",
@@ -10,39 +10,36 @@ const CHARACTER_TYPE = Entity.TYPE.CHARACTER;
 const LOCATION_TYPE = Entity.TYPE.LOCATION;
 const EPISODE_TYPE = Entity.TYPE.EPISODE;
 
-const maxEntityCount = [null, null, null];
-const maxEntityPage = [null, null, null];
-
 const MINIMUM_PAGE_NUMBER = 1;
 
-const DEFAULT_CHARACTER_COUNT = 826;
-const DEFAULT_CHARACTER_PAGES = 42;
+export const DEFAULT_CHARACTER_COUNT = 826;
+export const DEFAULT_CHARACTER_PAGES = 42;
 
-const DEFAULT_LOCATION_COUNT = 126;
-const DEFAULT_LOCATION_PAGES = 7;
+export const DEFAULT_LOCATION_COUNT = 126;
+export const DEFAULT_LOCATION_PAGES = 7;
 
-const DEFAULT_EPISODE_COUNT = 51;
-const DEFAULT_EPISODE_PAGES = 3;
+export const DEFAULT_EPISODE_COUNT = 51;
+export const DEFAULT_EPISODE_PAGES = 3;
 
-const DEFAULT_SEASON_01_START_PAGE = 1;
-const DEFAULT_SEASON_01_EPISODE_01_ID = 1;
-const DEFAULT_SEASON_01_EPISODE_COUNT = 11;
+export const DEFAULT_SEASON_01_START_PAGE = 1;
+export const DEFAULT_SEASON_01_EPISODE_01_ID = 1;
+export const DEFAULT_SEASON_01_EPISODE_COUNT = 11;
 
-const DEFAULT_SEASON_02_START_PAGE = 1;
-const DEFAULT_SEASON_02_EPISODE_01_ID = 12;
-const DEFAULT_SEASON_02_EPISODE_COUNT = 10;
+export const DEFAULT_SEASON_02_START_PAGE = 1;
+export const DEFAULT_SEASON_02_EPISODE_01_ID = 12;
+export const DEFAULT_SEASON_02_EPISODE_COUNT = 10;
 
-const DEFAULT_SEASON_03_START_PAGE = 2;
-const DEFAULT_SEASON_03_EPISODE_01_ID = 22;
-const DEFAULT_SEASON_03_EPISODE_COUNT = 10;
+export const DEFAULT_SEASON_03_START_PAGE = 2;
+export const DEFAULT_SEASON_03_EPISODE_01_ID = 22;
+export const DEFAULT_SEASON_03_EPISODE_COUNT = 10;
 
-const DEFAULT_SEASON_04_START_PAGE = 2;
-const DEFAULT_SEASON_04_EPISODE_01_ID = 32;
-const DEFAULT_SEASON_04_EPISODE_COUNT = 10;
+export const DEFAULT_SEASON_04_START_PAGE = 2;
+export const DEFAULT_SEASON_04_EPISODE_01_ID = 32;
+export const DEFAULT_SEASON_04_EPISODE_COUNT = 10;
 
-const DEFAULT_SEASON_05_START_PAGE = 3;
-const DEFAULT_SEASON_05_EPISODE_01_ID = 42;
-const DEFAULT_SEASON_05_EPISODE_COUNT = 10;
+export const DEFAULT_SEASON_05_START_PAGE = 3;
+export const DEFAULT_SEASON_05_EPISODE_01_ID = 42;
+export const DEFAULT_SEASON_05_EPISODE_COUNT = 10;
 
 const characterTypeInfo = {
     count: DEFAULT_CHARACTER_COUNT,
@@ -110,27 +107,6 @@ const episodeTypeInfo_test = {
 
 function getURLWithPageNumber(url, pageNumber) {
     return `${url}?page=${pageNumber}`;
-}
-
-function setMaxEntityCount(entityType, value) {
-    throwIfNotEntity(entityType);
-    maxEntityCount[entityType] = value;
-}
-
-function getMaxEntityCount(entityType) {
-    throwIfNotEntity(entityType);
-    let value = maxEntityCount[entityType];
-    if (value === null)
-        throw new Error(`The total count for ${getName(entityType)} is not set.`)
-    return value;
-}
-
-function getMaxEntityPage(entityType) {
-    throwIfNotEntity(entityType);
-    let value = maxEntityPage[entityType];
-    if (value === null)
-        throw new Error(`The total pages for ${getName(entityType)} is not set.`)
-    return value;
 }
 
 /**
@@ -240,6 +216,12 @@ async function getAllOfEntityType(entityType) {
     return { output: output, errors: errors };
 }
 
+async function getEntityById(entityType, id){
+    const response = await fetch(`${Entity.getURL(entityType)}/${id}`);
+    const data = await response.json();
+    return Entity.createCharacterFromJSON(await data);
+}
+
 function throwIfInvalidPage(entityType, inputPageNumber, minPageNumber, maxPageNumber) {
     let isInvalid = false;
     switch (entityType) {
@@ -258,7 +240,7 @@ function throwIfInvalidPage(entityType, inputPageNumber, minPageNumber, maxPageN
 
     }
     if (isInvalid)
-        throw new InvalidPageNumber(inputPageNumber, minPageNumber, maxPageNumber, `The page number for ${Entity.getEntityName(entityType)} is invalid`);
+        throw new InvalidPageNumberError(inputPageNumber, minPageNumber, maxPageNumber, `The page number for ${Entity.getEntityName(entityType)} is invalid`);
 }
 
 function throwIfNotEntity(entityType, msg = "Not an Entity") {
@@ -268,6 +250,22 @@ function throwIfNotEntity(entityType, msg = "Not an Entity") {
 
 
 // public
+
+export function getMaxCharacterPage(){
+    return characterTypeInfo.pages;
+}
+
+export function getMaxCharacterCount(){
+    return characterTypeInfo.count;
+}
+
+export function getMaxLocationPage(){
+    return locationTypeInfo.pages;
+}
+
+export function getMaxLocationCount(){
+    return locationTypeInfo.count;
+}
 
 /**
  * Updates the character count and the number of pages.
@@ -285,9 +283,22 @@ export async function updateLocationCountAndPages() {
 
 /**
  * Updates the episode count and the number of pages.
+ * @deprecated possibly be error-prone
  */
 export async function updateEpisodeCountAndPages() {
     await fetchInfoEntityType(EPISODE_TYPE);
+}
+
+export function getCharacterById(id){
+    if(id < MINIMUM_PAGE_NUMBER || id > characterTypeInfo.count)
+        throw new InvalidIdError(id, CHARACTER_TYPE, `No character of id ${id} that exists`);
+    return getEntityById(CHARACTER_TYPE, id);
+}
+
+export function getLocationById(id){
+    if(id < MINIMUM_PAGE_NUMBER || id > locationTypeInfo.count)
+        throw new InvalidIdError(id, LOCATION_TYPE, `No location of id ${id} that exists`);
+    return getEntityById(LOCATION_TYPE, id);
 }
 
 /**
@@ -323,6 +334,9 @@ export function getEpisodesFromPage(pageNumber) {
     return fetchEntitiesAsArrayFromPage(EPISODE_TYPE, pageNumber);
 }
 
+/**
+ * @deprecated incomplete, don't use
+ */
 export function getAllCharacterImages() {
     let output = [];
     let URL = Entity.getURL(CHARACTER_TYPE);
@@ -381,6 +395,9 @@ export async function getAllEpisodesFromSeason(seasonNumber) {
     return output;
 }
 
+/**
+ * @deprecated
+ */
 export async function getAllEpisodesBySeason() {
     let seasons = {};
     await getAllEpisodes()
@@ -398,6 +415,3 @@ export async function getAllEpisodesBySeason() {
         });
     return seasons;
 }
-
-await fetchSeasonsInfo()
-console.log(episodeTypeInfo_test);
